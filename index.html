@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Builder Man-AI</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle, #ff8c00 10%, #ffb347 90%);
+      animation: glow 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      0% { background-color: #ff8c00; }
+      100% { background-color: #ffb347; }
+    }
+
+    #chatFrame {
+      width: 90%;
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 20px;
+      border: 5px solid;
+      border-image: linear-gradient(45deg, red, yellow) 1;
+      padding: 20px;
+      box-shadow: 0 0 30px rgba(255, 166, 0, 0.6);
+    }
+
+    .message {
+      padding: 10px 15px;
+      margin: 8px 0;
+      border-radius: 10px;
+      max-width: 90%;
+    }
+
+    .user-message {
+      background-color: #d0eaff;
+      align-self: flex-end;
+      color: #003366;
+      font-weight: bold;
+    }
+
+    .bot-message {
+      background-color: #dde1f2;
+      color: #2c3e50;
+      text-shadow: 1px 1px 2px #334;
+      font-style: italic;
+    }
+
+    #chatArea {
+      display: flex;
+      flex-direction: column;
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 15px;
+      background-color: #fffef9;
+      border-radius: 10px;
+    }
+
+    #inputRow {
+      display: flex;
+      gap: 10px;
+    }
+
+    #userInput {
+      flex-grow: 1;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #aaa;
+      font-size: 16px;
+    }
+
+    #sendButton {
+      background-color: #ffcc00;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 0 8px rgba(255, 204, 0, 0.7);
+      transition: background-color 0.3s;
+    }
+
+    #sendButton:hover {
+      background-color: #ffdb4d;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chatFrame">
+    <h2 style="text-align: center; color: #ff5500;">🤖 Builder Man-AI</h2>
+    <div id="chatArea"></div>
+    <div id="inputRow">
+      <input id="userInput" type="text" placeholder="Ask me anything...">
+      <button id="sendButton">😃 Build</button>
+    </div>
+  </div>
+
+  <script>
+    const responses = {
+      "hello": "Hey there! Builder Man here. What’s up?",
+      "how are you": "I’m feeling like launching a new Roblox game!",
+      "who are you": "I'm Builder Man-AI, your friendly Roblox buddy!",
+      "what is roblox": "Roblox is the ultimate virtual universe that lets you create, share, and play games.",
+      "bye": "Catch you later, developer!", 
+      "how do i make a roblox game": "just download roblox studio and let your mind, run wild!",
+      "who made this app?": "well me! My real name is Roman H after not likeing my other AI BeteBlock-AI i deciad to make one roblox themed!",
+    };
+
+    function getBotReply(input) {
+      input = input.toLowerCase().trim();
+
+      if (responses[input]) return responses[input];
+
+      for (const key in responses) {
+        if (input.includes(key)) return responses[key];
+      }
+
+      return "Hmm, I don't know that one yet. Try asking me about Roblox!";
+    }
+
+    const inputField = document.getElementById("userInput");
+    const chatArea = document.getElementById("chatArea");
+    const sendButton = document.getElementById("sendButton");
+
+    function sendMessage() {
+      const userInput = inputField.value;
+      if (!userInput.trim()) return;
+
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user-message";
+      userMessage.textContent = userInput;
+      chatArea.appendChild(userMessage);
+
+      const botReply = getBotReply(userInput);
+      const botMessage = document.createElement("div");
+      botMessage.className = "message bot-message";
+      botMessage.textContent = botReply;
+      chatArea.appendChild(botMessage);
+
+      inputField.value = "";
+      chatArea.scrollTop = chatArea.scrollHeight;
+    }
+
+    sendButton.addEventListener("click", sendMessage);
+    inputField.addEventListener("keydown", e => {
+      if (e.key === "Enter") sendMessage();
+    });
+  </script>
+</body>
+</html>
