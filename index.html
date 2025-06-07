@@ -130,9 +130,26 @@
     const chatArea = document.getElementById("chatArea");
     const sendButton = document.getElementById("sendButton");
 
+    function speak(text) {
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.voice = speechSynthesis.getVoices().find(voice => voice.name.includes("Microsoft David") || voice.lang === "en-US");
+      window.speechSynthesis.speak(msg);
+    }
+
     function sendMessage() {
       const userInput = inputField.value;
       if (!userInput.trim()) return;
+
+      // Hide button for 2 seconds
+      sendButton.disabled = true;
+      sendButton.style.opacity = 0.5;
+      setTimeout(() => {
+        sendButton.disabled = false;
+        sendButton.style.opacity = 1;
+      }, 2000);
+
+      // Speak "Building Started!"
+      speak("Building Started!");
 
       const userMessage = document.createElement("div");
       userMessage.className = "message user-message";
